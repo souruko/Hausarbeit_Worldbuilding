@@ -20,9 +20,33 @@ namespace Hausarbeit_Worldbuilding
     /// </summary>
     public partial class MainWindow : Window
     {
+        Pages.CharacterPage CharacterPage;
+        Pages.LocationPage LocationPage;
+        Pages.EventPage EventPage;
+
         public MainWindow()
         {
+            CharacterPage = new Pages.CharacterPage();
+            LocationPage = new Pages.LocationPage();
+            EventPage = new Pages.EventPage();
+
             InitializeComponent();
+
+        }
+
+        private void CharacterButton_Click(object sender, RoutedEventArgs e)
+        {
+            PageContent.Content = CharacterPage;
+        }
+
+        private void LocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            PageContent.Content = LocationPage;
+        }
+
+        private void EventButton_Click(object sender, RoutedEventArgs e)
+        {
+            PageContent.Content = EventPage;
         }
     }
 }

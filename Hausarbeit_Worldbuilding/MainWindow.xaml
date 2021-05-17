@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hausarbeit_Worldbuilding"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="MainWindow" Height="800" Width="1000">
+    <Grid Name="MainGrid">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <Button Name="WorldButton" Grid.Row="0" Grid.Column="0">World</Button>
+
+        <Button Name="CharacterButton" Grid.Row="1" Grid.Column="0" Click="CharacterButton_Click">Character / Group</Button>
+        <Button Name="LocationButton" Grid.Row="2" Grid.Column="0" Click="LocationButton_Click">Location</Button>
+        <Button Name="EventButton" Grid.Row="3" Grid.Column="0" Click="EventButton_Click">Event</Button>
+        
+        <TextBox Name="SearchTextBox" Grid.Row="4" Grid.Column="0"></TextBox>
+        <ListView Name="SearchResultView" Grid.Row="5" Grid.Column="0"></ListView>
+
+        <ContentControl Name="PageContent" Grid.Row="0" Grid.RowSpan="6" Grid.Column="1"></ContentControl>
         
     </Grid>
 </Window>
