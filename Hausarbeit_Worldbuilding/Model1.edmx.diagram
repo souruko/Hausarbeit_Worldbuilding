@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6a63d21f8c864d46a643140eb070cea9" Name="Diagram1">
+        <EntityTypeShape EntityType="WorldbuildingDBModel.Character" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorldbuildingDBModel.Event" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorldbuildingDBModel.Gruppe" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorldbuildingDBModel.Location" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorldbuildingDBModel.World" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="WorldbuildingDBModel.fk_World_Character" ManuallyRouted="false" />
+        <AssociationConnector Association="WorldbuildingDBModel.fk_World_Event" ManuallyRouted="false" />
+        <AssociationConnector Association="WorldbuildingDBModel.fk_World_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="WorldbuildingDBModel.fk_World_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="WorldbuildingDBModel.Membership" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

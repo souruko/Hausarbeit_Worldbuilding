@@ -24,13 +24,35 @@ namespace Hausarbeit_Worldbuilding
         Pages.LocationPage LocationPage;
         Pages.EventPage EventPage;
 
+        WorldbuildingDBEntities Context;
+
+        int SelectedWorld;
+
         public MainWindow()
         {
             CharacterPage = new Pages.CharacterPage();
             LocationPage = new Pages.LocationPage();
             EventPage = new Pages.EventPage();
 
+            Context = new WorldbuildingDBEntities();
+
             InitializeComponent();
+
+            //ComboBox
+            foreach (var item in Context.World)
+            {
+                var temp = new ComboBoxItem();
+                temp.Content = item.Name;
+                temp.Tag = item.WorldID;
+
+                WorldComboBox.Items.Add(temp);
+            }
+            var tempNW = new ComboBoxItem();
+            tempNW.Content = "Create New World ...";
+            tempNW.Tag = 0;
+
+            WorldComboBox.Items.Add(tempNW);
+
 
         }
 
@@ -47,6 +69,22 @@ namespace Hausarbeit_Worldbuilding
         private void EventButton_Click(object sender, RoutedEventArgs e)
         {
             PageContent.Content = EventPage;
+        }
+
+        private void WorldComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (ComboBoxItem)WorldComboBox.SelectedItem;
+
+            SelectedWorld = (int)item.Tag;
+
+            if(SelectedWorld == 0)
+            {
+                //ADD CREATE NEW WORLD
+            }
+            else
+            {
+                //UPDATE PAGES
+            }
         }
     }
 }

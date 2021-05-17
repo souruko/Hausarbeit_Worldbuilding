@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
 
 
-        <Button Name="WorldButton" Grid.Row="0" Grid.Column="0">World</Button>
+        <ComboBox Name="WorldComboBox" Grid.Row="0" Grid.Column="0" SelectionChanged="WorldComboBox_SelectionChanged"></ComboBox>
 
         <Button Name="CharacterButton" Grid.Row="1" Grid.Column="0" Click="CharacterButton_Click">Character / Group</Button>
         <Button Name="LocationButton" Grid.Row="2" Grid.Column="0" Click="LocationButton_Click">Location</Button>
