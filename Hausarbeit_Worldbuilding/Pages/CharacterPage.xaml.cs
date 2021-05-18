@@ -23,6 +23,7 @@ namespace Hausarbeit_Worldbuilding.Pages
         int? SelectedWorld = null;
         string SearchFilter = "";
         WorldbuildingDBEntities Context;
+        List<ListBoxItem> Items = new List<ListBoxItem>();
 
         public CharacterPage(WorldbuildingDBEntities Context, int? SelectedWorld)
         {
@@ -40,15 +41,11 @@ namespace Hausarbeit_Worldbuilding.Pages
             if (SelectedWorld == null)
                 return;
 
-            foreach (var item in Context.Character)
+            foreach (var item in Items)
             {
-                if(item.Name.Contains(SearchFilter) && item.WorldID == SelectedWorld)
+                if(item.Content.ToString().Contains(SearchFilter) )
                 {
-                    var temp = new ListBoxItem();
-                    temp.Content = item.Name;
-                    temp.Tag = item.CharacterID;
-
-                    CharacterListBox.Items.Add(temp);
+                    CharacterListBox.Items.Add(item);
                 }
             }
         }
@@ -57,7 +54,52 @@ namespace Hausarbeit_Worldbuilding.Pages
         {
             this.SelectedWorld = SelectedWorld;
 
+            Items.Clear();
+
+            if(SelectedWorld != null)
+            {
+                foreach (var item in Context.Character)
+                {
+                    if (item.WorldID == SelectedWorld)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = item.Name;
+                        temp.Tag = item.CharacterID;
+                        temp.MouseDoubleClick += new MouseButtonEventHandler(ItemDoubleClick);
+
+                        Items.Add(temp);
+                    }
+                }
+            }
+
             FillListBox();
+        }
+
+        public void UpdatePage()
+        {
+            SelectedWorldChanged(SelectedWorld);
+        }
+
+        private void ItemDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var s = (ListBoxItem)sender;
+
+            var window = new Windows.CharacterWindow(this, Context, SelectedWorld, (int)s.Tag);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new Windows.CharacterWindow(this, Context, SelectedWorld, null);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SearchFilter = SearchTextBox.Text;
+
+            FillListBox();
+            
         }
     }
 }

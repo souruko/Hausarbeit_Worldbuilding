@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Hausarbeit_Worldbuilding.Pages
 {
-    interface IPage
+    public interface IPage
     {
 
         void SelectedWorldChanged(int? SelectedWorld);
+
+        void UpdatePage();
     }
 }

@@ -25,9 +25,10 @@ namespace Hausarbeit_Worldbuilding
         Pages.LocationPage LocationPage;
         Pages.EventPage EventPage;
 
+        string SearchFilter = "";
         WorldbuildingDBEntities Context;
 
-        int? SelectedWorld = null;
+        int? SelectedWorld = 0;
 
         public MainWindow()
         {
@@ -41,14 +42,25 @@ namespace Hausarbeit_Worldbuilding
 
             InitializeComponent();
 
-            //ComboBox
+            UpdateComboBox(0);
+
+        }
+
+        public void UpdateComboBox(int WorldID)
+        {
+            WorldComboBox.Items.Clear();
+            int selectionIndex = 0;
+
             foreach (var item in Context.World)
             {
                 var temp = new ComboBoxItem();
                 temp.Content = item.Name;
                 temp.Tag = item.WorldID;
 
-                WorldComboBox.Items.Add(temp);
+                int index = WorldComboBox.Items.Add(temp);
+
+                if (item.WorldID == WorldID)
+                    selectionIndex = index;
             }
             var tempNW = new ComboBoxItem();
             tempNW.Content = "Create New World ...";
@@ -56,7 +68,10 @@ namespace Hausarbeit_Worldbuilding
 
             WorldComboBox.Items.Add(tempNW);
 
-
+            if(WorldID != 0)
+            {
+                WorldComboBox.SelectedIndex = selectionIndex;
+            }
         }
 
         private void CharacterButton_Click(object sender, RoutedEventArgs e)
@@ -86,18 +101,79 @@ namespace Hausarbeit_Worldbuilding
         {
             var item = (ComboBoxItem)WorldComboBox.SelectedItem;
 
+            if (item == null)
+                return;
+
             SelectedWorld = (int)item.Tag;
 
             if(SelectedWorld == 0)
             {
-                //ADD CREATE NEW WORLD
+                var window = new Windows.WorldWindow(this, Context);
+                window.Visibility = Visibility.Visible;
             }
             else
             {
                 var currentPage = (Pages.IPage)PageContent.Content;
-                currentPage.SelectedWorldChanged(SelectedWorld);
+                if (currentPage != null)
+                {
+                    currentPage.SelectedWorldChanged(SelectedWorld);
+                }
+                MenuSearch();
+
             }
         }
 
+ 
+
+        private void MenuSearch()
+        {
+            SearchResult.Items.Clear();
+
+            if (SelectedWorld != null && SearchFilter != "")
+            {
+                foreach (var item in Context.Character.Where(x => x.WorldID == SelectedWorld && x.Name.Contains(SearchFilter)))
+                {
+                    var temp = new ListBoxItem();
+                    temp.Content = $"Character: {item.Name}";
+                    temp.Tag = item.CharacterID;
+
+                    SearchResult.Items.Add(temp);
+                }
+
+                foreach (var item in Context.Gruppe.Where(x => x.WorldID == SelectedWorld && x.Name.Contains(SearchFilter)))
+                {
+                    var temp = new ListBoxItem();
+                    temp.Content = $"Group: {item.Name}";
+                    temp.Tag = item.GroupID;
+
+                    SearchResult.Items.Add(temp);
+                }
+
+                foreach (var item in Context.Location.Where(x => x.WorldID == SelectedWorld && x.Name.Contains(SearchFilter)))
+                {
+                    var temp = new ListBoxItem();
+                    temp.Content = $"Location: {item.Name}";
+                    temp.Tag = item.LocationID;
+
+                    SearchResult.Items.Add(temp);
+                }
+
+                foreach (var item in Context.Event.Where(x => x.WorldID == SelectedWorld && x.Description.Contains(SearchFilter)))
+                {
+                    var temp = new ListBoxItem();
+                    temp.Content = $"Event: {item.Description}";
+                    temp.Tag = item.EventID;
+
+                    SearchResult.Items.Add(temp);
+                }
+            }
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SearchFilter = SearchTextBox.Text;
+
+            MenuSearch();
+        }
     }
 }

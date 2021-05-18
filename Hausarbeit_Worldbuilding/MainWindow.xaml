@@ -19,7 +19,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -31,8 +31,8 @@
         <Button Margin="2" Name="LocationButton" Grid.Row="3" Grid.Column="0" Click="LocationButton_Click">Location</Button>
         <Button Margin="2" Name="EventButton" Grid.Row="4" Grid.Column="0" Click="EventButton_Click">Event</Button>
 
-        <TextBox Margin="2 2 2 0" Name="SearchTextBox" Grid.Row="5" Grid.Column="0"></TextBox>
-        <ListBox Margin="2 0 2 2" Name="SearchResultView" Grid.Row="6" Grid.Column="0"></ListBox>
+        <TextBox Margin="2" Name="SearchTextBox" Grid.Row="5" Grid.Column="0" TextChanged="SearchTextBox_TextChanged"></TextBox>
+        <ListBox Margin="2" Name="SearchResult" Grid.Row="6" Grid.Column="0"></ListBox>
 
         <ContentControl Name="PageContent" Grid.Row="0" Grid.RowSpan="7" Grid.Column="1"></ContentControl>
         

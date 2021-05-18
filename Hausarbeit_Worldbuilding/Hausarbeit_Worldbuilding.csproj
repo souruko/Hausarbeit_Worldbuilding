@@ -87,6 +87,21 @@
       <DependentUpon>GroupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\IPage.cs" />
+    <Compile Include="Windows\CharacterWindow.xaml.cs">
+      <DependentUpon>CharacterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EventWindow.xaml.cs">
+      <DependentUpon>EventWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\GroupWindow.xaml.cs">
+      <DependentUpon>GroupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LocationWindow.xaml.cs">
+      <DependentUpon>LocationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\WorldWindow.xaml.cs">
+      <DependentUpon>WorldWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="World.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -115,6 +130,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\LocationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CharacterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EventWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GroupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LocationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\WorldWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
