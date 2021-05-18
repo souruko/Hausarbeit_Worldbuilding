@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Hausarbeit_Worldbuilding.Pages.CharacterPage"
+﻿<UserControl x:Class="Hausarbeit_Worldbuilding.Pages.GroupPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,10 +20,10 @@
             </Grid.ColumnDefinitions>
 
             <Button Margin="5">New</Button>
-            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">Character</TextBlock>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">Group</TextBlock>
             <TextBox Name="SearchTextBox" Grid.Column="2" Margin="5"></TextBox>
         </Grid>
 
-        <ListBox Name="CharacterListBox" Grid.Row="1" Margin="5"></ListBox>
+        <ListBox Name="GroupListBox" Grid.Row="1" Margin="5"></ListBox>
     </Grid>
 </UserControl>

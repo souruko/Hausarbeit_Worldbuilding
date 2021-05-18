@@ -18,11 +18,46 @@ namespace Hausarbeit_Worldbuilding.Pages
     /// <summary>
     /// Interaktionslogik für CharacterPage.xaml
     /// </summary>
-    public partial class CharacterPage : UserControl
+    public partial class CharacterPage : UserControl, IPage
     {
-        public CharacterPage()
+        int? SelectedWorld = null;
+        string SearchFilter = "";
+        WorldbuildingDBEntities Context;
+
+        public CharacterPage(WorldbuildingDBEntities Context, int? SelectedWorld)
         {
+            this.Context = Context;
+
             InitializeComponent();
+
+            FillListBox();
+        }
+
+        private void FillListBox()
+        {
+            CharacterListBox.Items.Clear();
+
+            if (SelectedWorld == null)
+                return;
+
+            foreach (var item in Context.Character)
+            {
+                if(item.Name.Contains(SearchFilter) && item.WorldID == SelectedWorld)
+                {
+                    var temp = new ListBoxItem();
+                    temp.Content = item.Name;
+                    temp.Tag = item.CharacterID;
+
+                    CharacterListBox.Items.Add(temp);
+                }
+            }
+        }
+
+        public void SelectedWorldChanged(int? SelectedWorld)
+        {
+            this.SelectedWorld = SelectedWorld;
+
+            FillListBox();
         }
     }
 }

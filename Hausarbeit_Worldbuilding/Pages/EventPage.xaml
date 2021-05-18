@@ -7,6 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock>EventPage</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Background="Gray" Margin="5" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Margin="5">New</Button>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">Event</TextBlock>
+        </Grid>
+
+        <ListBox Name="EventListBox" Grid.Row="1" Margin="5"></ListBox>
     </Grid>
 </UserControl>

@@ -21,20 +21,23 @@ namespace Hausarbeit_Worldbuilding
     public partial class MainWindow : Window
     {
         Pages.CharacterPage CharacterPage;
+        Pages.GroupPage GroupPage;
         Pages.LocationPage LocationPage;
         Pages.EventPage EventPage;
 
         WorldbuildingDBEntities Context;
 
-        int SelectedWorld;
+        int? SelectedWorld = null;
 
         public MainWindow()
         {
-            CharacterPage = new Pages.CharacterPage();
-            LocationPage = new Pages.LocationPage();
-            EventPage = new Pages.EventPage();
-
             Context = new WorldbuildingDBEntities();
+
+            CharacterPage = new Pages.CharacterPage(Context, SelectedWorld);
+            GroupPage = new Pages.GroupPage(Context, SelectedWorld);
+            LocationPage = new Pages.LocationPage(Context, SelectedWorld);
+            EventPage = new Pages.EventPage(Context, SelectedWorld);
+
 
             InitializeComponent();
 
@@ -58,17 +61,25 @@ namespace Hausarbeit_Worldbuilding
 
         private void CharacterButton_Click(object sender, RoutedEventArgs e)
         {
+            CharacterPage.SelectedWorldChanged(SelectedWorld);
             PageContent.Content = CharacterPage;
         }
 
         private void LocationButton_Click(object sender, RoutedEventArgs e)
         {
+            LocationPage.SelectedWorldChanged(SelectedWorld);
             PageContent.Content = LocationPage;
         }
 
         private void EventButton_Click(object sender, RoutedEventArgs e)
         {
+            EventPage.SelectedWorldChanged(SelectedWorld);
             PageContent.Content = EventPage;
+        }
+        private void GroupButton_Click(object sender, RoutedEventArgs e)
+        {
+            GroupPage.SelectedWorldChanged(SelectedWorld);
+            PageContent.Content = GroupPage;
         }
 
         private void WorldComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -83,8 +94,10 @@ namespace Hausarbeit_Worldbuilding
             }
             else
             {
-                //UPDATE PAGES
+                var currentPage = (Pages.IPage)PageContent.Content;
+                currentPage.SelectedWorldChanged(SelectedWorld);
             }
         }
+
     }
 }

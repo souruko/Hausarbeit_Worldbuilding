@@ -16,15 +16,17 @@ using System.Windows.Shapes;
 namespace Hausarbeit_Worldbuilding.Pages
 {
     /// <summary>
-    /// Interaktionslogik für EventPage.xaml
+    /// Interaktionslogik für GroupPage.xaml
     /// </summary>
-    public partial class EventPage : UserControl, IPage
+    public partial class GroupPage : UserControl, IPage
     {
         int? SelectedWorld = null;
 
+        string SearchFilter = "";
+
         WorldbuildingDBEntities Context;
 
-        public EventPage(WorldbuildingDBEntities Context, int? SelectedWorld)
+        public GroupPage(WorldbuildingDBEntities Context, int? SelectedWorld)
         {
             this.Context = Context;
 
@@ -35,20 +37,20 @@ namespace Hausarbeit_Worldbuilding.Pages
 
         private void FillListBox()
         {
-            EventListBox.Items.Clear();
+            GroupListBox.Items.Clear();
 
             if (SelectedWorld == null)
                 return;
 
-            foreach (var item in Context.Event)
+            foreach (var item in Context.Gruppe)
             {
-                if (item.WorldID == SelectedWorld)
+                if (item.Name.Contains(SearchFilter) && item.WorldID == SelectedWorld)
                 {
                     var temp = new ListBoxItem();
-                    temp.Content = item.Description;
-                    temp.Tag = item.EventID;
+                    temp.Content = item.Name;
+                    temp.Tag = item.GroupID;
 
-                    EventListBox.Items.Add(temp);
+                    GroupListBox.Items.Add(temp);
                 }
             }
         }

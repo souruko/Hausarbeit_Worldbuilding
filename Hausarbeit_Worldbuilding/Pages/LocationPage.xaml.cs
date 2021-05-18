@@ -18,11 +18,48 @@ namespace Hausarbeit_Worldbuilding.Pages
     /// <summary>
     /// Interaktionslogik für LocationPage.xaml
     /// </summary>
-    public partial class LocationPage : UserControl
+    public partial class LocationPage : UserControl, IPage
     {
-        public LocationPage()
+        int? SelectedWorld = null;
+
+        string SearchFilter = "";
+
+        WorldbuildingDBEntities Context;
+
+        public LocationPage(WorldbuildingDBEntities Context, int? SelectedWorld)
         {
+            this.Context = Context;
+
             InitializeComponent();
+
+            FillListBox();
+        }
+
+        private void FillListBox()
+        {
+            LocationListBox.Items.Clear();
+
+            if (SelectedWorld == null)
+                return;
+
+            foreach (var item in Context.Location)
+            {
+                if (item.Name.Contains(SearchFilter) && item.WorldID == SelectedWorld)
+                {
+                    var temp = new ListBoxItem();
+                    temp.Content = item.Name;
+                    temp.Tag = item.LocationID;
+
+                    LocationListBox.Items.Add(temp);
+                }
+            }
+        }
+
+        public void SelectedWorldChanged(int? SelectedWorld)
+        {
+            this.SelectedWorld = SelectedWorld;
+
+            FillListBox();
         }
     }
 }
