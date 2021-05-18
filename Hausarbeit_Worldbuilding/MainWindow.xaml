@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hausarbeit_Worldbuilding"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1000">
+        Title="Worldbuilding" Height="800" Width="1000">
     <Grid Name="MainGrid">
 
         <Grid.ColumnDefinitions>
