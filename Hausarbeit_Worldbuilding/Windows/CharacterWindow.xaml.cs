@@ -68,7 +68,6 @@ namespace Hausarbeit_Worldbuilding.Windows
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             Context.Character.Remove(c);
-
             Context.SaveChanges();
             parent.UpdatePage();
             this.Close();

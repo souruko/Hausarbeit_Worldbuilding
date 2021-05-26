@@ -17,7 +17,11 @@ namespace Hausarbeit_Worldbuilding
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Gruppe()
         {
-            this.Character = new HashSet<Character>();
+            this.Character_Group = new HashSet<Character_Group>();
+            this.Group_Event = new HashSet<Group_Event>();
+            this.Group_Group = new HashSet<Group_Group>();
+            this.Group_Group1 = new HashSet<Group_Group>();
+            this.Location_Group = new HashSet<Location_Group>();
         }
     
         public int GroupID { get; set; }
@@ -25,8 +29,16 @@ namespace Hausarbeit_Worldbuilding
         public string Name { get; set; }
         public string Description { get; set; }
     
-        public virtual World World { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Character> Character { get; set; }
+        public virtual ICollection<Character_Group> Character_Group { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Group_Event> Group_Event { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Group_Group> Group_Group { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Group_Group> Group_Group1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Location_Group> Location_Group { get; set; }
+        public virtual World World { get; set; }
     }
 }

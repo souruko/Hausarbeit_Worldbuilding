@@ -17,7 +17,11 @@ namespace Hausarbeit_Worldbuilding
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Character()
         {
-            this.Gruppe = new HashSet<Gruppe>();
+            this.Character_Character = new HashSet<Character_Character>();
+            this.Character_Character1 = new HashSet<Character_Character>();
+            this.Character_Event = new HashSet<Character_Event>();
+            this.Character_Group = new HashSet<Character_Group>();
+            this.Character_Location = new HashSet<Character_Location>();
         }
     
         public int CharacterID { get; set; }
@@ -26,8 +30,16 @@ namespace Hausarbeit_Worldbuilding
         public string Appearance { get; set; }
         public string Description { get; set; }
     
-        public virtual World World { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gruppe> Gruppe { get; set; }
+        public virtual ICollection<Character_Character> Character_Character { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Character_Character> Character_Character1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Character_Event> Character_Event { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Character_Group> Character_Group { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Character_Location> Character_Location { get; set; }
+        public virtual World World { get; set; }
     }
 }

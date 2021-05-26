@@ -26,9 +26,19 @@ namespace Hausarbeit_Worldbuilding
         }
     
         public virtual DbSet<Character> Character { get; set; }
+        public virtual DbSet<Character_Character> Character_Character { get; set; }
+        public virtual DbSet<Character_Event> Character_Event { get; set; }
+        public virtual DbSet<Character_Group> Character_Group { get; set; }
+        public virtual DbSet<Character_Location> Character_Location { get; set; }
         public virtual DbSet<Event> Event { get; set; }
+        public virtual DbSet<Event_Event> Event_Event { get; set; }
+        public virtual DbSet<Group_Event> Group_Event { get; set; }
+        public virtual DbSet<Group_Group> Group_Group { get; set; }
         public virtual DbSet<Gruppe> Gruppe { get; set; }
         public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Location_Event> Location_Event { get; set; }
+        public virtual DbSet<Location_Group> Location_Group { get; set; }
+        public virtual DbSet<Location_Location> Location_Location { get; set; }
         public virtual DbSet<World> World { get; set; }
     }
 }

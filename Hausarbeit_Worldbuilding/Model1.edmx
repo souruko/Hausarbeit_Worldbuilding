@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WorldbuildingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WorldbuildingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Character">
           <Key>
             <PropertyRef Name="CharacterID" />
@@ -15,12 +15,75 @@
           <Property Name="Appearance" Type="nvarchar" MaxLength="1000" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
         </EntityType>
+        <EntityType Name="Character_Character">
+          <Key>
+            <PropertyRef Name="CharacterID1" />
+            <PropertyRef Name="CharacterID2" />
+          </Key>
+          <Property Name="CharacterID1" Type="int" Nullable="false" />
+          <Property Name="CharacterID2" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Character_Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="CharacterID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Character_Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="CharacterID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Character_Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="CharacterID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="EventID" />
           </Key>
           <Property Name="EventID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WorldID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Event_Event">
+          <Key>
+            <PropertyRef Name="EventID1" />
+            <PropertyRef Name="EventID2" />
+          </Key>
+          <Property Name="EventID1" Type="int" Nullable="false" />
+          <Property Name="EventID2" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Group_Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Group_Group">
+          <Key>
+            <PropertyRef Name="GroupID1" />
+            <PropertyRef Name="GroupID2" />
+          </Key>
+          <Property Name="GroupID1" Type="int" Nullable="false" />
+          <Property Name="GroupID2" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="Gruppe">
@@ -43,13 +106,32 @@
           <Property Name="PosX" Type="int" />
           <Property Name="PosY" Type="int" />
         </EntityType>
-        <EntityType Name="Membership">
+        <EntityType Name="Location_Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Location_Group">
           <Key>
             <PropertyRef Name="GroupID" />
-            <PropertyRef Name="CharacterID" />
+            <PropertyRef Name="LocationID" />
           </Key>
           <Property Name="GroupID" Type="int" Nullable="false" />
-          <Property Name="CharacterID" Type="int" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Location_Location">
+          <Key>
+            <PropertyRef Name="LocationID1" />
+            <PropertyRef Name="LocationID2" />
+          </Key>
+          <Property Name="LocationID1" Type="int" Nullable="false" />
+          <Property Name="LocationID2" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="World">
           <Key>
@@ -58,27 +140,243 @@
           <Property Name="WorldID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="fk_Membership_Character">
+        <Association Name="fk_CC1_Character">
           <End Role="Character" Type="Self.Character" Multiplicity="1" />
-          <End Role="Membership" Type="Self.Membership" Multiplicity="*" />
+          <End Role="Character_Character" Type="Self.Character_Character" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Character">
               <PropertyRef Name="CharacterID" />
             </Principal>
-            <Dependent Role="Membership">
+            <Dependent Role="Character_Character">
+              <PropertyRef Name="CharacterID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CC2_Character">
+          <End Role="Character" Type="Self.Character" Multiplicity="1" />
+          <End Role="Character_Character" Type="Self.Character_Character" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Character">
+              <PropertyRef Name="CharacterID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CE_Character">
+          <End Role="Character" Type="Self.Character" Multiplicity="1" />
+          <End Role="Character_Event" Type="Self.Character_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Event">
               <PropertyRef Name="CharacterID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Membership_Group">
+        <Association Name="fk_CE_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Character_Event" Type="Self.Character_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Character_Event">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CG_Character">
+          <End Role="Character" Type="Self.Character" Multiplicity="1" />
+          <End Role="Character_Group" Type="Self.Character_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Group">
+              <PropertyRef Name="CharacterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CG_Group">
           <End Role="Gruppe" Type="Self.Gruppe" Multiplicity="1" />
-          <End Role="Membership" Type="Self.Membership" Multiplicity="*" />
+          <End Role="Character_Group" Type="Self.Character_Group" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Gruppe">
               <PropertyRef Name="GroupID" />
             </Principal>
-            <Dependent Role="Membership">
+            <Dependent Role="Character_Group">
               <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CL_Character">
+          <End Role="Character" Type="Self.Character" Multiplicity="1" />
+          <End Role="Character_Location" Type="Self.Character_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Location">
+              <PropertyRef Name="CharacterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CL_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Character_Location" Type="Self.Character_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Character_Location">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EE1_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Event_Event" Type="Self.Event_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Event_Event">
+              <PropertyRef Name="EventID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EE2_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Event_Event" Type="Self.Event_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Event_Event">
+              <PropertyRef Name="EventID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GE_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Group_Event" Type="Self.Group_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Group_Event">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GE_Group">
+          <End Role="Gruppe" Type="Self.Gruppe" Multiplicity="1" />
+          <End Role="Group_Event" Type="Self.Group_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Group_Event">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GG1_Group">
+          <End Role="Gruppe" Type="Self.Gruppe" Multiplicity="1" />
+          <End Role="Group_Group" Type="Self.Group_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Group_Group">
+              <PropertyRef Name="GroupID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GG2_Group">
+          <End Role="Gruppe" Type="Self.Gruppe" Multiplicity="1" />
+          <End Role="Group_Group" Type="Self.Group_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Group_Group">
+              <PropertyRef Name="GroupID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LE_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Location_Event" Type="Self.Location_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Location_Event">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LE_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Location_Event" Type="Self.Location_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Event">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LG_Group">
+          <End Role="Gruppe" Type="Self.Gruppe" Multiplicity="1" />
+          <End Role="Location_Group" Type="Self.Location_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Location_Group">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LG_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Location_Group" Type="Self.Location_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Group">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LL1_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Location_Location" Type="Self.Location_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Location">
+              <PropertyRef Name="LocationID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LL2_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Location_Location" Type="Self.Location_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Location">
+              <PropertyRef Name="LocationID2" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -140,18 +438,99 @@
         </Association>
         <EntityContainer Name="WorldbuildingDBModelStoreContainer">
           <EntitySet Name="Character" EntityType="Self.Character" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Character_Character" EntityType="Self.Character_Character" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Character_Event" EntityType="Self.Character_Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Character_Group" EntityType="Self.Character_Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Character_Location" EntityType="Self.Character_Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event_Event" EntityType="Self.Event_Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group_Event" EntityType="Self.Group_Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group_Group" EntityType="Self.Group_Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gruppe" EntityType="Self.Gruppe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Membership" EntityType="Self.Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location_Event" EntityType="Self.Location_Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location_Group" EntityType="Self.Location_Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location_Location" EntityType="Self.Location_Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="World" EntityType="Self.World" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="fk_Membership_Character" Association="Self.fk_Membership_Character">
+          <AssociationSet Name="fk_CC1_Character" Association="Self.fk_CC1_Character">
             <End Role="Character" EntitySet="Character" />
-            <End Role="Membership" EntitySet="Membership" />
+            <End Role="Character_Character" EntitySet="Character_Character" />
           </AssociationSet>
-          <AssociationSet Name="fk_Membership_Group" Association="Self.fk_Membership_Group">
+          <AssociationSet Name="fk_CC2_Character" Association="Self.fk_CC2_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Character" EntitySet="Character_Character" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CE_Character" Association="Self.fk_CE_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Event" EntitySet="Character_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CE_Event" Association="Self.fk_CE_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Character_Event" EntitySet="Character_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CG_Character" Association="Self.fk_CG_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Group" EntitySet="Character_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CG_Group" Association="Self.fk_CG_Group">
             <End Role="Gruppe" EntitySet="Gruppe" />
-            <End Role="Membership" EntitySet="Membership" />
+            <End Role="Character_Group" EntitySet="Character_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CL_Character" Association="Self.fk_CL_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Location" EntitySet="Character_Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CL_Location" Association="Self.fk_CL_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Character_Location" EntitySet="Character_Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EE1_Event" Association="Self.fk_EE1_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Event_Event" EntitySet="Event_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EE2_Event" Association="Self.fk_EE2_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Event_Event" EntitySet="Event_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GE_Event" Association="Self.fk_GE_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Group_Event" EntitySet="Group_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GE_Group" Association="Self.fk_GE_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Group_Event" EntitySet="Group_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GG1_Group" Association="Self.fk_GG1_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Group_Group" EntitySet="Group_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GG2_Group" Association="Self.fk_GG2_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Group_Group" EntitySet="Group_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LE_Event" Association="Self.fk_LE_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Location_Event" EntitySet="Location_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LE_Location" Association="Self.fk_LE_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Event" EntitySet="Location_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LG_Group" Association="Self.fk_LG_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Location_Group" EntitySet="Location_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LG_Location" Association="Self.fk_LG_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Group" EntitySet="Location_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LL1_Location" Association="Self.fk_LL1_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Location" EntitySet="Location_Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LL2_Location" Association="Self.fk_LL2_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Location" EntitySet="Location_Location" />
           </AssociationSet>
           <AssociationSet Name="fk_World_Character" Association="Self.fk_World_Character">
             <End Role="World" EntitySet="World" />
@@ -170,11 +549,123 @@
             <End Role="Location" EntitySet="Location" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WorldbuildingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WorldbuildingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Character" EntityType="WorldbuildingDBModel.Character" />
+          <EntitySet Name="Character_Character" EntityType="WorldbuildingDBModel.Character_Character" />
+          <EntitySet Name="Character_Event" EntityType="WorldbuildingDBModel.Character_Event" />
+          <EntitySet Name="Character_Group" EntityType="WorldbuildingDBModel.Character_Group" />
+          <EntitySet Name="Character_Location" EntityType="WorldbuildingDBModel.Character_Location" />
+          <EntitySet Name="Event" EntityType="WorldbuildingDBModel.Event" />
+          <EntitySet Name="Event_Event" EntityType="WorldbuildingDBModel.Event_Event" />
+          <EntitySet Name="Group_Event" EntityType="WorldbuildingDBModel.Group_Event" />
+          <EntitySet Name="Group_Group" EntityType="WorldbuildingDBModel.Group_Group" />
+          <EntitySet Name="Gruppe" EntityType="WorldbuildingDBModel.Gruppe" />
+          <EntitySet Name="Location" EntityType="WorldbuildingDBModel.Location" />
+          <EntitySet Name="Location_Event" EntityType="WorldbuildingDBModel.Location_Event" />
+          <EntitySet Name="Location_Group" EntityType="WorldbuildingDBModel.Location_Group" />
+          <EntitySet Name="Location_Location" EntityType="WorldbuildingDBModel.Location_Location" />
+          <EntitySet Name="World" EntityType="WorldbuildingDBModel.World" />
+          <AssociationSet Name="fk_CC1_Character" Association="WorldbuildingDBModel.fk_CC1_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Character" EntitySet="Character_Character" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CC2_Character" Association="WorldbuildingDBModel.fk_CC2_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Character" EntitySet="Character_Character" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CE_Character" Association="WorldbuildingDBModel.fk_CE_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Event" EntitySet="Character_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CG_Character" Association="WorldbuildingDBModel.fk_CG_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Group" EntitySet="Character_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CL_Character" Association="WorldbuildingDBModel.fk_CL_Character">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Character_Location" EntitySet="Character_Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_World_Character" Association="WorldbuildingDBModel.fk_World_Character">
+            <End Role="World" EntitySet="World" />
+            <End Role="Character" EntitySet="Character" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CE_Event" Association="WorldbuildingDBModel.fk_CE_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Character_Event" EntitySet="Character_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CG_Group" Association="WorldbuildingDBModel.fk_CG_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Character_Group" EntitySet="Character_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CL_Location" Association="WorldbuildingDBModel.fk_CL_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Character_Location" EntitySet="Character_Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EE1_Event" Association="WorldbuildingDBModel.fk_EE1_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Event_Event" EntitySet="Event_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EE2_Event" Association="WorldbuildingDBModel.fk_EE2_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Event_Event" EntitySet="Event_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GE_Event" Association="WorldbuildingDBModel.fk_GE_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Group_Event" EntitySet="Group_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LE_Event" Association="WorldbuildingDBModel.fk_LE_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Location_Event" EntitySet="Location_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_World_Event" Association="WorldbuildingDBModel.fk_World_Event">
+            <End Role="World" EntitySet="World" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GE_Group" Association="WorldbuildingDBModel.fk_GE_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Group_Event" EntitySet="Group_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GG1_Group" Association="WorldbuildingDBModel.fk_GG1_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Group_Group" EntitySet="Group_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GG2_Group" Association="WorldbuildingDBModel.fk_GG2_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Group_Group" EntitySet="Group_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LG_Group" Association="WorldbuildingDBModel.fk_LG_Group">
+            <End Role="Gruppe" EntitySet="Gruppe" />
+            <End Role="Location_Group" EntitySet="Location_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_World_Group" Association="WorldbuildingDBModel.fk_World_Group">
+            <End Role="World" EntitySet="World" />
+            <End Role="Gruppe" EntitySet="Gruppe" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LE_Location" Association="WorldbuildingDBModel.fk_LE_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Event" EntitySet="Location_Event" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LG_Location" Association="WorldbuildingDBModel.fk_LG_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Group" EntitySet="Location_Group" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LL1_Location" Association="WorldbuildingDBModel.fk_LL1_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Location" EntitySet="Location_Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LL2_Location" Association="WorldbuildingDBModel.fk_LL2_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Location_Location" EntitySet="Location_Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_World_Location" Association="WorldbuildingDBModel.fk_World_Location">
+            <End Role="World" EntitySet="World" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Character">
           <Key>
             <PropertyRef Name="CharacterID" />
@@ -184,8 +675,56 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Appearance" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="World" Relationship="Self.fk_World_Character" FromRole="Character" ToRole="World" />
-          <NavigationProperty Name="Gruppe" Relationship="Self.Membership" FromRole="Character" ToRole="Gruppe" />
+          <NavigationProperty Name="Character_Character" Relationship="WorldbuildingDBModel.fk_CC1_Character" FromRole="Character" ToRole="Character_Character" />
+          <NavigationProperty Name="Character_Character1" Relationship="WorldbuildingDBModel.fk_CC2_Character" FromRole="Character" ToRole="Character_Character" />
+          <NavigationProperty Name="Character_Event" Relationship="WorldbuildingDBModel.fk_CE_Character" FromRole="Character" ToRole="Character_Event" />
+          <NavigationProperty Name="Character_Group" Relationship="WorldbuildingDBModel.fk_CG_Character" FromRole="Character" ToRole="Character_Group" />
+          <NavigationProperty Name="Character_Location" Relationship="WorldbuildingDBModel.fk_CL_Character" FromRole="Character" ToRole="Character_Location" />
+          <NavigationProperty Name="World" Relationship="WorldbuildingDBModel.fk_World_Character" FromRole="Character" ToRole="World" />
+        </EntityType>
+        <EntityType Name="Character_Character">
+          <Key>
+            <PropertyRef Name="CharacterID1" />
+            <PropertyRef Name="CharacterID2" />
+          </Key>
+          <Property Name="CharacterID1" Type="Int32" Nullable="false" />
+          <Property Name="CharacterID2" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Character" Relationship="WorldbuildingDBModel.fk_CC1_Character" FromRole="Character_Character" ToRole="Character" />
+          <NavigationProperty Name="Character1" Relationship="WorldbuildingDBModel.fk_CC2_Character" FromRole="Character_Character" ToRole="Character" />
+        </EntityType>
+        <EntityType Name="Character_Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <Property Name="CharacterID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Character" Relationship="WorldbuildingDBModel.fk_CE_Character" FromRole="Character_Event" ToRole="Character" />
+          <NavigationProperty Name="Event" Relationship="WorldbuildingDBModel.fk_CE_Event" FromRole="Character_Event" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Character_Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="CharacterID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Character" Relationship="WorldbuildingDBModel.fk_CG_Character" FromRole="Character_Group" ToRole="Character" />
+          <NavigationProperty Name="Gruppe" Relationship="WorldbuildingDBModel.fk_CG_Group" FromRole="Character_Group" ToRole="Gruppe" />
+        </EntityType>
+        <EntityType Name="Character_Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="CharacterID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Character" Relationship="WorldbuildingDBModel.fk_CL_Character" FromRole="Character_Location" ToRole="Character" />
+          <NavigationProperty Name="Location" Relationship="WorldbuildingDBModel.fk_CL_Location" FromRole="Character_Location" ToRole="Location" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -194,7 +733,45 @@
           <Property Name="EventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WorldID" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="World" Relationship="Self.fk_World_Event" FromRole="Event" ToRole="World" />
+          <NavigationProperty Name="Character_Event" Relationship="WorldbuildingDBModel.fk_CE_Event" FromRole="Event" ToRole="Character_Event" />
+          <NavigationProperty Name="Event_Event" Relationship="WorldbuildingDBModel.fk_EE1_Event" FromRole="Event" ToRole="Event_Event" />
+          <NavigationProperty Name="Event_Event1" Relationship="WorldbuildingDBModel.fk_EE2_Event" FromRole="Event" ToRole="Event_Event" />
+          <NavigationProperty Name="Group_Event" Relationship="WorldbuildingDBModel.fk_GE_Event" FromRole="Event" ToRole="Group_Event" />
+          <NavigationProperty Name="Location_Event" Relationship="WorldbuildingDBModel.fk_LE_Event" FromRole="Event" ToRole="Location_Event" />
+          <NavigationProperty Name="World" Relationship="WorldbuildingDBModel.fk_World_Event" FromRole="Event" ToRole="World" />
+        </EntityType>
+        <EntityType Name="Event_Event">
+          <Key>
+            <PropertyRef Name="EventID1" />
+            <PropertyRef Name="EventID2" />
+          </Key>
+          <Property Name="EventID1" Type="Int32" Nullable="false" />
+          <Property Name="EventID2" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Event" Relationship="WorldbuildingDBModel.fk_EE1_Event" FromRole="Event_Event" ToRole="Event" />
+          <NavigationProperty Name="Event1" Relationship="WorldbuildingDBModel.fk_EE2_Event" FromRole="Event_Event" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Group_Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Event" Relationship="WorldbuildingDBModel.fk_GE_Event" FromRole="Group_Event" ToRole="Event" />
+          <NavigationProperty Name="Gruppe" Relationship="WorldbuildingDBModel.fk_GE_Group" FromRole="Group_Event" ToRole="Gruppe" />
+        </EntityType>
+        <EntityType Name="Group_Group">
+          <Key>
+            <PropertyRef Name="GroupID1" />
+            <PropertyRef Name="GroupID2" />
+          </Key>
+          <Property Name="GroupID1" Type="Int32" Nullable="false" />
+          <Property Name="GroupID2" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Gruppe" Relationship="WorldbuildingDBModel.fk_GG1_Group" FromRole="Group_Group" ToRole="Gruppe" />
+          <NavigationProperty Name="Gruppe1" Relationship="WorldbuildingDBModel.fk_GG2_Group" FromRole="Group_Group" ToRole="Gruppe" />
         </EntityType>
         <EntityType Name="Gruppe">
           <Key>
@@ -204,8 +781,12 @@
           <Property Name="WorldID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="World" Relationship="Self.fk_World_Group" FromRole="Gruppe" ToRole="World" />
-          <NavigationProperty Name="Character" Relationship="Self.Membership" FromRole="Gruppe" ToRole="Character" />
+          <NavigationProperty Name="Character_Group" Relationship="WorldbuildingDBModel.fk_CG_Group" FromRole="Gruppe" ToRole="Character_Group" />
+          <NavigationProperty Name="Group_Event" Relationship="WorldbuildingDBModel.fk_GE_Group" FromRole="Gruppe" ToRole="Group_Event" />
+          <NavigationProperty Name="Group_Group" Relationship="WorldbuildingDBModel.fk_GG1_Group" FromRole="Gruppe" ToRole="Group_Group" />
+          <NavigationProperty Name="Group_Group1" Relationship="WorldbuildingDBModel.fk_GG2_Group" FromRole="Gruppe" ToRole="Group_Group" />
+          <NavigationProperty Name="Location_Group" Relationship="WorldbuildingDBModel.fk_LG_Group" FromRole="Gruppe" ToRole="Location_Group" />
+          <NavigationProperty Name="World" Relationship="WorldbuildingDBModel.fk_World_Group" FromRole="Gruppe" ToRole="World" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -217,7 +798,45 @@
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="PosX" Type="Int32" />
           <Property Name="PosY" Type="Int32" />
-          <NavigationProperty Name="World" Relationship="Self.fk_World_Location" FromRole="Location" ToRole="World" />
+          <NavigationProperty Name="Character_Location" Relationship="WorldbuildingDBModel.fk_CL_Location" FromRole="Location" ToRole="Character_Location" />
+          <NavigationProperty Name="Location_Event" Relationship="WorldbuildingDBModel.fk_LE_Location" FromRole="Location" ToRole="Location_Event" />
+          <NavigationProperty Name="Location_Group" Relationship="WorldbuildingDBModel.fk_LG_Location" FromRole="Location" ToRole="Location_Group" />
+          <NavigationProperty Name="Location_Location" Relationship="WorldbuildingDBModel.fk_LL1_Location" FromRole="Location" ToRole="Location_Location" />
+          <NavigationProperty Name="Location_Location1" Relationship="WorldbuildingDBModel.fk_LL2_Location" FromRole="Location" ToRole="Location_Location" />
+          <NavigationProperty Name="World" Relationship="WorldbuildingDBModel.fk_World_Location" FromRole="Location" ToRole="World" />
+        </EntityType>
+        <EntityType Name="Location_Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Event" Relationship="WorldbuildingDBModel.fk_LE_Event" FromRole="Location_Event" ToRole="Event" />
+          <NavigationProperty Name="Location" Relationship="WorldbuildingDBModel.fk_LE_Location" FromRole="Location_Event" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Location_Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Gruppe" Relationship="WorldbuildingDBModel.fk_LG_Group" FromRole="Location_Group" ToRole="Gruppe" />
+          <NavigationProperty Name="Location" Relationship="WorldbuildingDBModel.fk_LG_Location" FromRole="Location_Group" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Location_Location">
+          <Key>
+            <PropertyRef Name="LocationID1" />
+            <PropertyRef Name="LocationID2" />
+          </Key>
+          <Property Name="LocationID1" Type="Int32" Nullable="false" />
+          <Property Name="LocationID2" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Location" Relationship="WorldbuildingDBModel.fk_LL1_Location" FromRole="Location_Location" ToRole="Location" />
+          <NavigationProperty Name="Location1" Relationship="WorldbuildingDBModel.fk_LL2_Location" FromRole="Location_Location" ToRole="Location" />
         </EntityType>
         <EntityType Name="World">
           <Key>
@@ -225,16 +844,76 @@
           </Key>
           <Property Name="WorldID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Character" Relationship="Self.fk_World_Character" FromRole="World" ToRole="Character" />
-          <NavigationProperty Name="Event" Relationship="Self.fk_World_Event" FromRole="World" ToRole="Event" />
-          <NavigationProperty Name="Gruppe" Relationship="Self.fk_World_Group" FromRole="World" ToRole="Gruppe" />
-          <NavigationProperty Name="Location" Relationship="Self.fk_World_Location" FromRole="World" ToRole="Location" />
+          <NavigationProperty Name="Character" Relationship="WorldbuildingDBModel.fk_World_Character" FromRole="World" ToRole="Character" />
+          <NavigationProperty Name="Event" Relationship="WorldbuildingDBModel.fk_World_Event" FromRole="World" ToRole="Event" />
+          <NavigationProperty Name="Gruppe" Relationship="WorldbuildingDBModel.fk_World_Group" FromRole="World" ToRole="Gruppe" />
+          <NavigationProperty Name="Location" Relationship="WorldbuildingDBModel.fk_World_Location" FromRole="World" ToRole="Location" />
         </EntityType>
+        <Association Name="fk_CC1_Character">
+          <End Type="WorldbuildingDBModel.Character" Role="Character" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Character" Role="Character_Character" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Character">
+              <PropertyRef Name="CharacterID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CC2_Character">
+          <End Type="WorldbuildingDBModel.Character" Role="Character" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Character" Role="Character_Character" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Character">
+              <PropertyRef Name="CharacterID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CE_Character">
+          <End Type="WorldbuildingDBModel.Character" Role="Character" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Event" Role="Character_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Event">
+              <PropertyRef Name="CharacterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CG_Character">
+          <End Type="WorldbuildingDBModel.Character" Role="Character" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Group" Role="Character_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Group">
+              <PropertyRef Name="CharacterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CL_Character">
+          <End Type="WorldbuildingDBModel.Character" Role="Character" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Location" Role="Character_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterID" />
+            </Principal>
+            <Dependent Role="Character_Location">
+              <PropertyRef Name="CharacterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_World_Character">
-          <End Role="World" Type="Self.World" Multiplicity="1">
+          <End Type="WorldbuildingDBModel.World" Role="World" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Character" Type="Self.Character" Multiplicity="*" />
+          <End Type="WorldbuildingDBModel.Character" Role="Character" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="World">
               <PropertyRef Name="WorldID" />
@@ -244,11 +923,95 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_CE_Event">
+          <End Type="WorldbuildingDBModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Event" Role="Character_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Character_Event">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CG_Group">
+          <End Type="WorldbuildingDBModel.Gruppe" Role="Gruppe" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Group" Role="Character_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Character_Group">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CL_Location">
+          <End Type="WorldbuildingDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Character_Location" Role="Character_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Character_Location">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EE1_Event">
+          <End Type="WorldbuildingDBModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Event_Event" Role="Event_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Event_Event">
+              <PropertyRef Name="EventID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EE2_Event">
+          <End Type="WorldbuildingDBModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Event_Event" Role="Event_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Event_Event">
+              <PropertyRef Name="EventID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GE_Event">
+          <End Type="WorldbuildingDBModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Group_Event" Role="Group_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Group_Event">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LE_Event">
+          <End Type="WorldbuildingDBModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Location_Event" Role="Location_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Location_Event">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_World_Event">
-          <End Role="World" Type="Self.World" Multiplicity="1">
+          <End Type="WorldbuildingDBModel.World" Role="World" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <End Type="WorldbuildingDBModel.Event" Role="Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="World">
               <PropertyRef Name="WorldID" />
@@ -258,11 +1021,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_GE_Group">
+          <End Type="WorldbuildingDBModel.Gruppe" Role="Gruppe" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Group_Event" Role="Group_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Group_Event">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GG1_Group">
+          <End Type="WorldbuildingDBModel.Gruppe" Role="Gruppe" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Group_Group" Role="Group_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Group_Group">
+              <PropertyRef Name="GroupID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GG2_Group">
+          <End Type="WorldbuildingDBModel.Gruppe" Role="Gruppe" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Group_Group" Role="Group_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Group_Group">
+              <PropertyRef Name="GroupID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LG_Group">
+          <End Type="WorldbuildingDBModel.Gruppe" Role="Gruppe" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Location_Group" Role="Location_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gruppe">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Location_Group">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_World_Group">
-          <End Role="World" Type="Self.World" Multiplicity="1">
+          <End Type="WorldbuildingDBModel.World" Role="World" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Gruppe" Type="Self.Gruppe" Multiplicity="*" />
+          <End Type="WorldbuildingDBModel.Gruppe" Role="Gruppe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="World">
               <PropertyRef Name="WorldID" />
@@ -272,11 +1083,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_LE_Location">
+          <End Type="WorldbuildingDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Location_Event" Role="Location_Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Event">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LG_Location">
+          <End Type="WorldbuildingDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Location_Group" Role="Location_Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Group">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LL1_Location">
+          <End Type="WorldbuildingDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Location_Location" Role="Location_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Location">
+              <PropertyRef Name="LocationID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LL2_Location">
+          <End Type="WorldbuildingDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="WorldbuildingDBModel.Location_Location" Role="Location_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Location_Location">
+              <PropertyRef Name="LocationID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_World_Location">
-          <End Role="World" Type="Self.World" Multiplicity="1">
+          <End Type="WorldbuildingDBModel.World" Role="World" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <End Type="WorldbuildingDBModel.Location" Role="Location" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="World">
               <PropertyRef Name="WorldID" />
@@ -286,38 +1145,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Membership">
-          <End Role="Character" Type="Self.Character" Multiplicity="*" />
-          <End Role="Gruppe" Type="Self.Gruppe" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="WorldbuildingDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Character" EntityType="Self.Character" />
-          <EntitySet Name="Event" EntityType="Self.Event" />
-          <EntitySet Name="Gruppe" EntityType="Self.Gruppe" />
-          <EntitySet Name="Location" EntityType="Self.Location" />
-          <EntitySet Name="World" EntityType="Self.World" />
-          <AssociationSet Name="fk_World_Character" Association="Self.fk_World_Character">
-            <End Role="World" EntitySet="World" />
-            <End Role="Character" EntitySet="Character" />
-          </AssociationSet>
-          <AssociationSet Name="fk_World_Event" Association="Self.fk_World_Event">
-            <End Role="World" EntitySet="World" />
-            <End Role="Event" EntitySet="Event" />
-          </AssociationSet>
-          <AssociationSet Name="fk_World_Group" Association="Self.fk_World_Group">
-            <End Role="World" EntitySet="World" />
-            <End Role="Gruppe" EntitySet="Gruppe" />
-          </AssociationSet>
-          <AssociationSet Name="fk_World_Location" Association="Self.fk_World_Location">
-            <End Role="World" EntitySet="World" />
-            <End Role="Location" EntitySet="Location" />
-          </AssociationSet>
-          <AssociationSet Name="Membership" Association="Self.Membership">
-            <End Role="Character" EntitySet="Character" />
-            <End Role="Gruppe" EntitySet="Gruppe" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -326,61 +1154,143 @@
           <EntitySetMapping Name="Character">
             <EntityTypeMapping TypeName="WorldbuildingDBModel.Character">
               <MappingFragment StoreEntitySet="Character">
-                <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
-                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Appearance" ColumnName="Appearance" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Appearance" ColumnName="Appearance" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
+                <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Character_Character">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Character_Character">
+              <MappingFragment StoreEntitySet="Character_Character">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CharacterID2" ColumnName="CharacterID2" />
+                <ScalarProperty Name="CharacterID1" ColumnName="CharacterID1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Character_Event">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Character_Event">
+              <MappingFragment StoreEntitySet="Character_Event">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Character_Group">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Character_Group">
+              <MappingFragment StoreEntitySet="Character_Group">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Character_Location">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Character_Location">
+              <MappingFragment StoreEntitySet="Character_Location">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="WorldbuildingDBModel.Event">
               <MappingFragment StoreEntitySet="Event">
-                <ScalarProperty Name="EventID" ColumnName="EventID" />
-                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Event_Event">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Event_Event">
+              <MappingFragment StoreEntitySet="Event_Event">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EventID2" ColumnName="EventID2" />
+                <ScalarProperty Name="EventID1" ColumnName="EventID1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group_Event">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Group_Event">
+              <MappingFragment StoreEntitySet="Group_Event">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group_Group">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Group_Group">
+              <MappingFragment StoreEntitySet="Group_Group">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GroupID2" ColumnName="GroupID2" />
+                <ScalarProperty Name="GroupID1" ColumnName="GroupID1" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Gruppe">
             <EntityTypeMapping TypeName="WorldbuildingDBModel.Gruppe">
               <MappingFragment StoreEntitySet="Gruppe">
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Location">
             <EntityTypeMapping TypeName="WorldbuildingDBModel.Location">
               <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="PosX" ColumnName="PosX" />
                 <ScalarProperty Name="PosY" ColumnName="PosY" />
+                <ScalarProperty Name="PosX" ColumnName="PosX" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Location_Event">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Location_Event">
+              <MappingFragment StoreEntitySet="Location_Event">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Location_Group">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Location_Group">
+              <MappingFragment StoreEntitySet="Location_Group">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Location_Location">
+            <EntityTypeMapping TypeName="WorldbuildingDBModel.Location_Location">
+              <MappingFragment StoreEntitySet="Location_Location">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LocationID2" ColumnName="LocationID2" />
+                <ScalarProperty Name="LocationID1" ColumnName="LocationID1" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="World">
             <EntityTypeMapping TypeName="WorldbuildingDBModel.World">
               <MappingFragment StoreEntitySet="World">
-                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorldID" ColumnName="WorldID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Membership" TypeName="WorldbuildingDBModel.Membership" StoreEntitySet="Membership">
-            <EndProperty Name="Character">
-              <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
-            </EndProperty>
-            <EndProperty Name="Gruppe">
-              <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

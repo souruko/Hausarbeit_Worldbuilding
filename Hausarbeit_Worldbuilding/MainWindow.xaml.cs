@@ -50,7 +50,7 @@ namespace Hausarbeit_Worldbuilding
         {
             WorldComboBox.Items.Clear();
             int selectionIndex = 0;
-
+            
             foreach (var item in Context.World)
             {
                 var temp = new ComboBoxItem();
