@@ -38,6 +38,8 @@ namespace Hausarbeit_Worldbuilding.Windows
             {
                 c = new Gruppe();
                 c.WorldID = (int)SelectedWorld;
+
+                DeleteButton.IsEnabled = false;
             }
             else
             {

@@ -101,5 +101,57 @@ namespace Hausarbeit_Worldbuilding.Pages
             FillListBox();
 
         }
+
+        private void EventListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EventListBox.SelectedItem == null)
+                ConnectionButton.IsEnabled = false;
+            else
+                ConnectionButton.IsEnabled = true;
+        }
+
+        private void CharacterConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (EventListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)EventListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Event_Character, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void GroupConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (EventListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)EventListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Event_Group, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void LocationConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (EventListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)EventListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Event_Location, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void EventConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (EventListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)EventListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Event_Event, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
     }
 }

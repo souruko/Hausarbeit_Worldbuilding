@@ -15,6 +15,30 @@ using System.Windows.Shapes;
 
 namespace Hausarbeit_Worldbuilding
 {
+
+    public enum ConnectionTyp
+    {
+        Character_Character = 0,
+        Character_Group = 1,
+        Character_Location = 2,
+        Character_Event = 3,
+
+        Group_Character = 4,
+        Group_Group = 5,
+        Group_Location = 6,   
+        Group_Event = 7,
+
+        Location_Character = 8,
+        Location_Group = 9,
+        Location_Location = 10,
+        Location_Event = 11,
+
+        Event_Character = 12,
+        Event_Group = 13,
+        Event_Location = 14,
+        Event_Event = 15,
+    }
+
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>

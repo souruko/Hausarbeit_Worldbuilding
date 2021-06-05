@@ -1,0 +1,38 @@
+﻿<Window x:Class="Hausarbeit_Worldbuilding.Windows.ConnectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hausarbeit_Worldbuilding.Windows"
+        mc:Ignorable="d"
+        Title="ConnectionWindow" Height="500" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Margin="5" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">From</TextBlock>
+        <TextBlock Margin="5" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">To</TextBlock>
+        <TextBlock Margin="5" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Description</TextBlock>
+
+        <TextBox IsEnabled="False" Name="FromTextBox" Margin="5" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>
+        <TextBox Name="SearchTextBox" Margin="5" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="SearchTextBox_TextChanged"></TextBox>
+        <TextBox Name="DescriptionTextBox" Margin="5" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>
+
+        <ListBox Name="ConnectionListBox" Grid.Row="3" Grid.ColumnSpan="2" Margin="5"></ListBox>
+
+        <Button Name="SaveButton" Grid.Row="7" Grid.Column="1" Margin="5" Width="100" HorizontalAlignment="Right" Click="SaveButton_Click">Save Changes</Button>
+        <Button Name="DeleteButton" Grid.Row="7" Grid.Column="0" Margin="5" Width="100" HorizontalAlignment="Left" Click="DeleteButton_Click">Delete</Button>
+    </Grid>
+</Window>

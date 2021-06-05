@@ -101,5 +101,57 @@ namespace Hausarbeit_Worldbuilding.Pages
             FillListBox();
 
         }
+
+        private void LocationListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LocationListBox.SelectedItem == null)
+                ConnectionButton.IsEnabled = false;
+            else
+                ConnectionButton.IsEnabled = true;
+        }
+
+        private void CharacterConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)LocationListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Location_Character, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void GroupConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)LocationListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Location_Group, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void LocationConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)LocationListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Location_Location, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void EventConnection_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocationListBox.SelectedItem == null)
+                return;
+
+            var s = (ListBoxItem)LocationListBox.SelectedItem;
+
+            var window = new Windows.ConnectionWindow(ConnectionTyp.Location_Event, (int)s.Tag, null, Context, SelectedWorld);
+            window.Visibility = Visibility.Visible;
+        }
     }
 }

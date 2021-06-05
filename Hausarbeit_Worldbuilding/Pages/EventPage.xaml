@@ -15,15 +15,26 @@
         <Grid Background="Gray" Margin="5" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="110"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="150"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <Button Name="NewButton" Margin="5" Click="NewButton_Click">New</Button>
-            <TextBlock   Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">Event</TextBlock>
-            <TextBox Name="SearchTextBox" Grid.Column="2" Margin="5" TextChanged="SearchTextBox_TextChanged"></TextBox>
+            <Button IsEnabled="False" Grid.Column="1" Name="ConnectionButton" Margin="5" Content="Add Connection">
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="To Character" Click="CharacterConnection_Click"/>
+                        <MenuItem Header="To Group" Click="GroupConnection_Click"/>
+                        <MenuItem Header="To Location" Click="LocationConnection_Click"/>
+                        <MenuItem Header="To Event" Click="EventConnection_Click"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+            <TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">Event</TextBlock>
+            <TextBox Name="SearchTextBox" Grid.Column="3" Margin="5" TextChanged="SearchTextBox_TextChanged"></TextBox>
         </Grid>
 
-        <ListBox Name="EventListBox" Grid.Row="1" Margin="5"></ListBox>
+        <ListBox Name="EventListBox" Grid.Row="1" Margin="5" SelectionChanged="EventListBox_SelectionChanged"></ListBox>
     </Grid>
 </UserControl>
