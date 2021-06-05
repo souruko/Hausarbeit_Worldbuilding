@@ -50,6 +50,69 @@ namespace Hausarbeit_Worldbuilding.Windows
             NameTextBox.Text = c.Name;
             ApearanceTextBox.Text = c.Appearance;
             DescriptionTextBox.Text = c.Description;
+
+            FillConnectionListBox();
+        }
+
+        private void FillConnectionListBox()
+        {
+
+            if (CharID != null)
+            {
+
+                foreach (var item in Context.Character_Character)
+                {
+                    if (item.CharacterID1 == CharID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Character1.Name} - {item.Description}";
+                        temp.Tag = item.CharacterID2;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+
+                    if (item.CharacterID2 == CharID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Character.Name} - {item.Description}";
+                        temp.Tag = item.CharacterID1;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Character_Group)
+                {
+                    if(item.CharacterID == CharID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Gruppe.Name} - {item.Description}";
+                        temp.Tag = item.CharacterID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Character_Location)
+                {
+
+                    if (item.CharacterID == CharID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Location.Name} - {item.Description}";
+                        temp.Tag = item.CharacterID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Character_Event)
+                {
+                    if (item.CharacterID == CharID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Event.Description} - {item.Description}";
+                        temp.Tag = item.CharacterID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

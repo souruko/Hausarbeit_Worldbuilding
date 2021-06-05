@@ -47,6 +47,68 @@ namespace Hausarbeit_Worldbuilding.Windows
             }
 
             DescriptionTextBox.Text = c.Description;
+            FillConnectionListBox();
+        }
+
+        private void FillConnectionListBox()
+        {
+
+            if (EventID != null)
+            {
+
+                foreach (var item in Context.Event_Event)
+                {
+                    if (item.EventID1 == EventID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Event1.Description} - {item.Description}";
+                        temp.Tag = item.EventID2;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+
+                    if (item.EventID2 == EventID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Event.Description} - {item.Description}";
+                        temp.Tag = item.EventID1;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Group_Event)
+                {
+                    if (item.EventID == EventID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Gruppe.Name} - {item.Description}";
+                        temp.Tag = item.EventID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Location_Event)
+                {
+
+                    if (item.EventID == EventID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Location.Name} - {item.Description}";
+                        temp.Tag = item.EventID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Character_Event)
+                {
+                    if (item.EventID == EventID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Event.Description} - {item.Description}";
+                        temp.Tag = item.EventID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

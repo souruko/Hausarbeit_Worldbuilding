@@ -48,6 +48,8 @@ namespace Hausarbeit_Worldbuilding.Windows
 
             NameTextBox.Text = c.Name;
             DescriptionTextBox.Text = c.Description;
+
+            FillConnectionListBox();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -72,6 +74,67 @@ namespace Hausarbeit_Worldbuilding.Windows
             Context.SaveChanges();
             parent.UpdatePage();
             this.Close();
+        }
+
+        private void FillConnectionListBox()
+        {
+
+            if (GroupID != null)
+            {
+
+                foreach (var item in Context.Group_Group)
+                {
+                    if (item.GroupID1 == GroupID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Gruppe1.Name} - {item.Description}";
+                        temp.Tag = item.GroupID1;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+
+                    if (item.GroupID2 == GroupID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Gruppe.Name} - {item.Description}";
+                        temp.Tag = item.GroupID1;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Character_Group)
+                {
+                    if (item.GroupID == GroupID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Gruppe.Name} - {item.Description}";
+                        temp.Tag = item.GroupID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Location_Group)
+                {
+
+                    if (item.GroupID == GroupID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Location.Name} - {item.Description}";
+                        temp.Tag = item.GroupID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+
+                foreach (var item in Context.Group_Event)
+                {
+                    if (item.GroupID == GroupID)
+                    {
+                        var temp = new ListBoxItem();
+                        temp.Content = $"{item.Event.Description} - {item.Description}";
+                        temp.Tag = item.GroupID;
+                        ConnectionListBox.Items.Add(temp);
+                    }
+                }
+            }
         }
     }
 }
