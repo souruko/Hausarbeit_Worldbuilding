@@ -30,7 +30,6 @@ namespace Hausarbeit_Worldbuilding.Pages
             this.Context = Context;
 
             InitializeComponent();
-
             FillListBox();
         }
 
@@ -63,9 +62,11 @@ namespace Hausarbeit_Worldbuilding.Pages
                     if (item.WorldID == SelectedWorld)
                     {
                         var temp = new ListBoxItem();
-                        temp.Content = item.Name;
+                        temp.Content = $"{item.Name}  -  {item.Description}";
                         temp.Tag = item.CharacterID;
+
                         temp.MouseDoubleClick += new MouseButtonEventHandler(ItemDoubleClick);
+                        temp.MouseUp += new MouseButtonEventHandler(ItemRightClick);
 
                         Items.Add(temp);
                     }
@@ -74,6 +75,8 @@ namespace Hausarbeit_Worldbuilding.Pages
 
             FillListBox();
         }
+
+
 
         public void UpdatePage()
         {
@@ -152,6 +155,42 @@ namespace Hausarbeit_Worldbuilding.Pages
 
             var window = new Windows.ConnectionWindow(ConnectionTyp.Character_Event, (int)s.Tag, null, Context, SelectedWorld);
             window.Visibility = Visibility.Visible;
+        }
+
+        private void ConnectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionContextMenu.IsOpen = true;
+        }
+
+        private void ItemRightClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                ItemContextMenu.IsOpen = true;
+            }
+        }
+
+        private void AddCon_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionContextMenu.IsOpen = true;
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            var s = (ListBoxItem)CharacterListBox.SelectedItem;
+
+            var window = new Windows.CharacterWindow(this, Context, SelectedWorld, (int)s.Tag);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var s = (ListBoxItem)CharacterListBox.SelectedItem;
+
+
+            Context.Character.Remove(Context.Character.First(x => x.CharacterID == (int)s.Tag));
+            Context.SaveChanges();
+            UpdatePage();
         }
     }
 }

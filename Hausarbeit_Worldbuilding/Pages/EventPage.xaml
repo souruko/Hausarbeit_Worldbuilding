@@ -12,7 +12,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid Background="Gray" Margin="5" Grid.Row="0">
+        <Grid Background="Gray" Margin="2" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"></ColumnDefinition>
                 <ColumnDefinition Width="110"></ColumnDefinition>
@@ -21,9 +21,9 @@
             </Grid.ColumnDefinitions>
 
             <Button Name="NewButton" Margin="5" Click="NewButton_Click">New</Button>
-            <Button IsEnabled="False" Grid.Column="1" Name="ConnectionButton" Margin="5" Content="Add Connection">
+            <Button IsEnabled="False" Grid.Column="1" Name="ConnectionButton" Margin="5"  Click="ConnectionButton_Click" Content="Add Connection">
                 <Button.ContextMenu>
-                    <ContextMenu>
+                    <ContextMenu Name="ConnectionContextMenu">
                         <MenuItem Header="To Character" Click="CharacterConnection_Click"/>
                         <MenuItem Header="To Group" Click="GroupConnection_Click"/>
                         <MenuItem Header="To Location" Click="LocationConnection_Click"/>
@@ -31,10 +31,42 @@
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>
-            <TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">Event</TextBlock>
-            <TextBox Name="SearchTextBox" Grid.Column="3" Margin="5" TextChanged="SearchTextBox_TextChanged"></TextBox>
+            <TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25">Event</TextBlock>
+            <TextBox Name="SearchTextBox" Grid.Column="3" Margin="5" TextChanged="SearchTextBox_TextChanged" VerticalContentAlignment="Center">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                        <Style.Resources>
+                            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                <VisualBrush.Visual>
+                                    <Label Content="Filter" Foreground="LightGray" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Style.Resources>
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                            </Trigger>
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="Background" Value="White" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
         </Grid>
 
-        <ListBox Name="EventListBox" Grid.Row="1" Margin="5" SelectionChanged="EventListBox_SelectionChanged"></ListBox>
+        <ListBox Name="EventListBox" Grid.Row="1" Margin="2" SelectionChanged="EventListBox_SelectionChanged">
+            <ListBox.ContextMenu>
+                <ContextMenu Name="ItemContextMenu">
+                    <MenuItem Header="Add Connection" Click="AddCon_Click"/>
+                    <MenuItem Header="Edit" Click="Edit_Click"/>
+                    <Separator></Separator>
+                    <MenuItem Header="Delete" Click="Delete_Click"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
     </Grid>
 </UserControl>

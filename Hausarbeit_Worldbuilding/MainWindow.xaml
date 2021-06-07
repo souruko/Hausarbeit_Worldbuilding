@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hausarbeit_Worldbuilding"
         mc:Ignorable="d"
-        Title="Worldbuilding" Height="800" Width="1000">
+        Background="LightGreen"
+        Title="Worldbuilding" Height="800" Width="1000" Icon="world-icon.ico">
+
     <Grid Name="MainGrid">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="110*"></ColumnDefinition>
+            <ColumnDefinition Width="311*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -26,15 +29,62 @@
 
         <ComboBox Margin="2" Name="WorldComboBox" Grid.Row="0" Grid.Column="0" SelectionChanged="WorldComboBox_SelectionChanged"></ComboBox>
 
-        <Button Margin="2" Name="CharacterButton" Grid.Row="1" Grid.Column="0" Click="CharacterButton_Click">Character</Button>
-        <Button Margin="2" Name="GroupButton" Grid.Row="2" Grid.Column="0" Click="GroupButton_Click">Group</Button>
-        <Button Margin="2" Name="LocationButton" Grid.Row="3" Grid.Column="0" Click="LocationButton_Click">Location</Button>
-        <Button Margin="2" Name="EventButton" Grid.Row="4" Grid.Column="0" Click="EventButton_Click">Event</Button>
+        <Button Background="DarkGray" Margin="2" Name="CharacterButton" Grid.Row="1" Grid.Column="0" Click="CharacterButton_Click"  Content="Character">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Background="DarkGray" Margin="2" Name="GroupButton" Grid.Row="2" Grid.Column="0" Click="GroupButton_Click" Content="Group">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Background="DarkGray" Margin="2" Name="LocationButton" Grid.Row="3" Grid.Column="0" Click="LocationButton_Click" Content="Location">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Background="DarkGray" Margin="2" Name="EventButton" Grid.Row="4" Grid.Column="0" Click="EventButton_Click" Content="Event">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
-        <TextBox Margin="2" Name="SearchTextBox" Grid.Row="5" Grid.Column="0" TextChanged="SearchTextBox_TextChanged"></TextBox>
-        <ListBox Margin="2" Name="SearchResult" Grid.Row="6" Grid.Column="0"></ListBox>
+        <TextBox Margin="2" Name="SearchTextBox" Grid.Row="5" Grid.Column="0" TextChanged="SearchTextBox_TextChanged" VerticalContentAlignment="Center">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Search" Foreground="Gray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <ListBox Background="DarkGray" Margin="2" Name="SearchResult" Grid.Row="6" Grid.Column="0"></ListBox>
 
-        <ContentControl Name="PageContent" Grid.Row="0" Grid.RowSpan="7" Grid.Column="1"></ContentControl>
-        
+        <ContentControl Name="PageContent" Grid.Row="0" Grid.RowSpan="7" Grid.Column="1" Grid.ColumnSpan="2"></ContentControl>
+
     </Grid>
 </Window>

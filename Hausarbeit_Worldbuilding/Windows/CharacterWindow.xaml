@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hausarbeit_Worldbuilding.Windows"
         mc:Ignorable="d"
-        Title="CharacterWindow" Height="500" Width="400">
+        Background="LightGreen"
+        Title="CharacterWindow" Height="500" Width="400" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -26,8 +27,8 @@
 
 
         <TextBox Grid.Row="1" Name="NameTextBox" Margin="5"></TextBox>
-        <TextBox Grid.Row="3" Name="ApearanceTextBox" Margin="5"></TextBox>
-        <TextBox Grid.Row="5" Name="DescriptionTextBox" Margin="5"></TextBox>
+        <TextBox TextWrapping="Wrap"  AcceptsReturn="True" Grid.Row="3" Name="ApearanceTextBox" Margin="5"></TextBox>
+        <TextBox TextWrapping="Wrap"  AcceptsReturn="True" Grid.Row="5" Name="DescriptionTextBox" Margin="5"></TextBox>
         <ListBox Grid.Row="7" Name="ConnectionListBox" Margin="5"></ListBox>
 
         <Button Name="SaveButton" Grid.Row="8" Margin="5" Width="100" HorizontalAlignment="Right" Click="SaveButton_Click">Save Changes</Button>

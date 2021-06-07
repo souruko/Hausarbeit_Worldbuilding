@@ -153,5 +153,41 @@ namespace Hausarbeit_Worldbuilding.Pages
             var window = new Windows.ConnectionWindow(ConnectionTyp.Group_Event, (int)s.Tag, null, Context, SelectedWorld);
             window.Visibility = Visibility.Visible;
         }
+
+        private void ConnectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionContextMenu.IsOpen = true;
+        }
+
+        private void ItemRightClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                ItemContextMenu.IsOpen = true;
+            }
+        }
+
+        private void AddCon_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionContextMenu.IsOpen = true;
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            var s = (ListBoxItem)GroupListBox.SelectedItem;
+
+            var window = new Windows.CharacterWindow(this, Context, SelectedWorld, (int)s.Tag);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var s = (ListBoxItem)GroupListBox.SelectedItem;
+
+
+            Context.Gruppe.Remove(Context.Gruppe.First(x => x.GroupID == (int)s.Tag));
+            Context.SaveChanges();
+            UpdatePage();
+        }
     }
 }

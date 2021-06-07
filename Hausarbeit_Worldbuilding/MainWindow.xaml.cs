@@ -66,11 +66,13 @@ namespace Hausarbeit_Worldbuilding
 
             InitializeComponent();
 
-            UpdateComboBox(0);
+            SelectedWorld = Properties.Settings.Default.SelectedWorld;
+
+            UpdateComboBox(SelectedWorld);
 
         }
 
-        public void UpdateComboBox(int WorldID)
+        public void UpdateComboBox(int? WorldID)
         {
             WorldComboBox.Items.Clear();
             int selectionIndex = 0;
@@ -98,27 +100,43 @@ namespace Hausarbeit_Worldbuilding
             }
         }
 
+        private void ResetButtonColors()
+        {
+            CharacterButton.Background = Brushes.DarkGray;
+            LocationButton.Background = Brushes.DarkGray;
+            GroupButton.Background = Brushes.DarkGray;
+            EventButton.Background = Brushes.DarkGray;
+        }
+
         private void CharacterButton_Click(object sender, RoutedEventArgs e)
         {
             CharacterPage.SelectedWorldChanged(SelectedWorld);
             PageContent.Content = CharacterPage;
+            ResetButtonColors();
+            CharacterButton.Background = Brushes.Gray;
         }
 
         private void LocationButton_Click(object sender, RoutedEventArgs e)
         {
             LocationPage.SelectedWorldChanged(SelectedWorld);
             PageContent.Content = LocationPage;
+            ResetButtonColors();
+            LocationButton.Background = Brushes.Gray;
         }
 
         private void EventButton_Click(object sender, RoutedEventArgs e)
         {
             EventPage.SelectedWorldChanged(SelectedWorld);
             PageContent.Content = EventPage;
+            ResetButtonColors();
+            EventButton.Background = Brushes.Gray;
         }
         private void GroupButton_Click(object sender, RoutedEventArgs e)
         {
             GroupPage.SelectedWorldChanged(SelectedWorld);
             PageContent.Content = GroupPage;
+            ResetButtonColors();
+            GroupButton.Background = Brushes.Gray;
         }
 
         private void WorldComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -129,8 +147,13 @@ namespace Hausarbeit_Worldbuilding
                 return;
 
             SelectedWorld = (int)item.Tag;
+            if(SelectedWorld == null)
+                Properties.Settings.Default.SelectedWorld = 0;
+            else
+                Properties.Settings.Default.SelectedWorld = (int)SelectedWorld;
+            Properties.Settings.Default.Save();
 
-            if(SelectedWorld == 0)
+            if (SelectedWorld == 0)
             {
                 var window = new Windows.WorldWindow(this, Context);
                 window.Visibility = Visibility.Visible;
@@ -160,7 +183,7 @@ namespace Hausarbeit_Worldbuilding
                     var temp = new ListBoxItem();
                     temp.Content = $"Character: {item.Name}";
                     temp.Tag = item.CharacterID;
-
+                    temp.MouseDoubleClick += new MouseButtonEventHandler(CharacterItem_DoubleClick);
                     SearchResult.Items.Add(temp);
                 }
 
@@ -169,7 +192,7 @@ namespace Hausarbeit_Worldbuilding
                     var temp = new ListBoxItem();
                     temp.Content = $"Group: {item.Name}";
                     temp.Tag = item.GroupID;
-
+                    temp.MouseDoubleClick += new MouseButtonEventHandler(GroupItem_DoubleClick);
                     SearchResult.Items.Add(temp);
                 }
 
@@ -178,7 +201,7 @@ namespace Hausarbeit_Worldbuilding
                     var temp = new ListBoxItem();
                     temp.Content = $"Location: {item.Name}";
                     temp.Tag = item.LocationID;
-
+                    temp.MouseDoubleClick += new MouseButtonEventHandler(LocationItem_DoubleClick);
                     SearchResult.Items.Add(temp);
                 }
 
@@ -187,10 +210,42 @@ namespace Hausarbeit_Worldbuilding
                     var temp = new ListBoxItem();
                     temp.Content = $"Event: {item.Description}";
                     temp.Tag = item.EventID;
-
+                    temp.MouseDoubleClick += new MouseButtonEventHandler(EventItem_DoubleClick);
                     SearchResult.Items.Add(temp);
                 }
             }
+        }
+
+        private void CharacterItem_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var s = (ListBoxItem)sender;
+
+            var window = new Windows.CharacterWindow(null, Context, SelectedWorld, (int)s.Tag);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void GroupItem_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var s = (ListBoxItem)sender;
+
+            var window = new Windows.GroupWindow(null, Context, SelectedWorld, (int)s.Tag);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void LocationItem_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var s = (ListBoxItem)sender;
+
+            var window = new Windows.LocationWindow(null, Context, SelectedWorld, (int)s.Tag);
+            window.Visibility = Visibility.Visible;
+        }
+
+        private void EventItem_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var s = (ListBoxItem)sender;
+
+            var window = new Windows.EventWindow(null, Context, SelectedWorld, (int)s.Tag);
+            window.Visibility = Visibility.Visible;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

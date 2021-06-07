@@ -65,7 +65,7 @@ namespace Hausarbeit_Worldbuilding.Windows
                     if (item.CharacterID1 == CharID)
                     {
                         var temp = new ListBoxItem();
-                        temp.Content = $"{item.Character1.Name} - {item.Description}";
+                        temp.Content = $"Character: {item.Character1.Name}  -  {item.Description}";
                         temp.Tag = item.CharacterID2;
                         ConnectionListBox.Items.Add(temp);
                     }
@@ -73,7 +73,7 @@ namespace Hausarbeit_Worldbuilding.Windows
                     if (item.CharacterID2 == CharID)
                     {
                         var temp = new ListBoxItem();
-                        temp.Content = $"{item.Character.Name} - {item.Description}";
+                        temp.Content = $"Character: {item.Character.Name}  -  {item.Description}";
                         temp.Tag = item.CharacterID1;
                         ConnectionListBox.Items.Add(temp);
                     }
@@ -84,7 +84,7 @@ namespace Hausarbeit_Worldbuilding.Windows
                     if(item.CharacterID == CharID)
                     {
                         var temp = new ListBoxItem();
-                        temp.Content = $"{item.Gruppe.Name} - {item.Description}";
+                        temp.Content = $"Group: {item.Gruppe.Name}  -  {item.Description}";
                         temp.Tag = item.CharacterID;
                         ConnectionListBox.Items.Add(temp);
                     }
@@ -96,7 +96,7 @@ namespace Hausarbeit_Worldbuilding.Windows
                     if (item.CharacterID == CharID)
                     {
                         var temp = new ListBoxItem();
-                        temp.Content = $"{item.Location.Name} - {item.Description}";
+                        temp.Content = $"Location: {item.Location.Name}  -  {item.Description}";
                         temp.Tag = item.CharacterID;
                         ConnectionListBox.Items.Add(temp);
                     }
@@ -107,7 +107,7 @@ namespace Hausarbeit_Worldbuilding.Windows
                     if (item.CharacterID == CharID)
                     {
                         var temp = new ListBoxItem();
-                        temp.Content = $"{item.Event.Description} - {item.Description}";
+                        temp.Content = $"Event: {item.Event.Description}  -  {item.Description}";
                         temp.Tag = item.CharacterID;
                         ConnectionListBox.Items.Add(temp);
                     }
@@ -127,15 +127,22 @@ namespace Hausarbeit_Worldbuilding.Windows
             }
 
             Context.SaveChanges();
-            parent.UpdatePage();
+
+            if(parent != null)
+                parent.UpdatePage();
+
             this.Close();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             Context.Character.Remove(c);
+
             Context.SaveChanges();
-            parent.UpdatePage();
+
+            if (parent != null)
+                parent.UpdatePage();
+
             this.Close();
         }
     }

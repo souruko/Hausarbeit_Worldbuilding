@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hausarbeit_Worldbuilding.Windows"
         mc:Ignorable="d"
-        Title="WorldWindow" Height="300" Width="300">
+        Background="LightGreen"
+        Title="WorldWindow" Height="300" Width="300" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
