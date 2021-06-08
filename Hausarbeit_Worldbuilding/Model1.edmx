@@ -103,8 +103,6 @@
           <Property Name="WorldID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
-          <Property Name="PosX" Type="int" />
-          <Property Name="PosY" Type="int" />
         </EntityType>
         <EntityType Name="Location_Event">
           <Key>
@@ -796,8 +794,6 @@
           <Property Name="WorldID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="PosX" Type="Int32" />
-          <Property Name="PosY" Type="Int32" />
           <NavigationProperty Name="Character_Location" Relationship="WorldbuildingDBModel.fk_CL_Location" FromRole="Location" ToRole="Character_Location" />
           <NavigationProperty Name="Location_Event" Relationship="WorldbuildingDBModel.fk_LE_Location" FromRole="Location" ToRole="Location_Event" />
           <NavigationProperty Name="Location_Group" Relationship="WorldbuildingDBModel.fk_LG_Location" FromRole="Location" ToRole="Location_Group" />
@@ -1247,8 +1243,6 @@
           <EntitySetMapping Name="Location">
             <EntityTypeMapping TypeName="WorldbuildingDBModel.Location">
               <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="PosY" ColumnName="PosY" />
-                <ScalarProperty Name="PosX" ColumnName="PosX" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="WorldID" ColumnName="WorldID" />
